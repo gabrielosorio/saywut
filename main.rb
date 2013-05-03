@@ -5,13 +5,13 @@ require 'mongoid'
 
 configure do
   Mongoid.configure do |config|
-    config.sessions = { :default => { :hosts => ["localhost:27017"], :database => "saywat" } }
+    config.sessions = { :default => { :hosts => ["localhost:27017"], :database => "saywut" } }
   end
 end
 
 class Saying
   include Mongoid::Document
-  field :wat
+  field :wut
   field :who
   field :wen, type: Time, default: Time.now
 end
@@ -29,9 +29,9 @@ get '/roulette' do
 end
 
 post '/spread-the-word' do
-  return "Don't be leaving empty params..." if params["wat"].empty? || params["who"].empty?
+  return "Don't be leaving empty params..." if params["wut"].empty? || params["who"].empty?
 
-  if Saying.create(wat: params["wat"], who: params["who"])
+  if Saying.create(wut: params["wut"], who: params["who"])
     redirect back
   else
     "Does this unformatted text make you feel miserable enough to understand that this is an error?"
@@ -65,9 +65,9 @@ __END__
 #main-wrapper
   #content
     %form{ action: '/spread-the-word', method: 'POST' }
-      %h1 SayWat?
+      %h1 SayWut?
       .field
-        %input{ type: 'text', name: 'wat' }
+        %input{ type: 'text', name: 'wut' }
 
       %h2 SezWho?
       .field
@@ -78,11 +78,11 @@ __END__
 @@ roulette
 #main-wrapper.black
   #content
-    %h1 SayWat?
+    %h1 SayWut?
 
     %h2
       &#8220;
-      = saying.wat
+      = saying.wut
       &#8221;
     %h2.author
       &#8212;

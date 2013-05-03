@@ -1,4 +1,4 @@
-# SayWat
+# SayWut
 ## Overview
   Create quotes. Show them randomly. That - is - it.
 ## TODOs
