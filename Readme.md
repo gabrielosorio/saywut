@@ -4,3 +4,4 @@
 ## TODOs
 - Integrate notifications of success and show your recently created quote.
 - Share the link to a quote.
+- Not show more than 3 consecutive roulette quotes to avoid repetitiveness.
