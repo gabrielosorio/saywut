@@ -3,9 +3,15 @@ require 'sinatra'
 require 'haml'
 require 'mongoid'
 
+ENV['RACK_ENV'] ||= 'development'
+
 configure do
   Mongoid.configure do |config|
-    config.sessions = { :default => { :hosts => ["localhost:27017"], :database => "saywut" } }
+    if ENV['RACK_ENV'] && ENV['RACK_ENV'] == 'production'
+      config.sessions = { default: { uri: ENV['MONGOHQ_URL'] } }
+    else
+      config.sessions = { default: { uri: 'mongodb://localhost:27017/saywut' } }
+    end
   end
 end
 
