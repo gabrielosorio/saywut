@@ -28,6 +28,10 @@ get '/roulette' do
   haml :roulette, locals: { saying: Saying.all.sample }
 end
 
+get '/roulette.json' do
+  Saying.all.sample.json
+end
+
 post '/spread-the-word' do
   return "Don't be leaving empty params..." if params["wut"].empty? || params["who"].empty?
 
