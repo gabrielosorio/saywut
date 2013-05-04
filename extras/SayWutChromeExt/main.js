@@ -1,5 +1,5 @@
 var saysGenerator = {
-  searchOnSays_: 'http://localhost:4567/roulette.json',
+  searchOnSays_: 'http://saywut.herokuapp.com/roulette.json',
   requestSays: function() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", this.searchOnSays_, true);

@@ -5,7 +5,7 @@
   "description": "This extension is awesome.",
   "version": "1.0",
   "permissions": [
-    "http://localhost:4567/"
+    "http://saywut.herokuapp.com/"
   ],
   "browser_action": {
     "default_icon": "poop.png",
