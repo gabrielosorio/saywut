@@ -35,7 +35,7 @@ get '/roulette' do
 end
 
 get '/roulette.json' do
-  Saying.all.sample.json
+  Saying.all.sample.to_json
 end
 
 post '/spread-the-word' do
