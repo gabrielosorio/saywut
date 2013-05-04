@@ -59,7 +59,8 @@ __END__
       * { font-family: 'Playfair Display', serif; font-weight: bold; }
       #main-wrapper { height: 100%; width: 100%; display: -webkit-box; -webkit-box-pack: center; -webkit-box-orient: horizontal; -webkit-box-align: center; display: -moz-box; -moz-box-pack: center; -moz-box-orient: horizontal; -moz-box-align: center; display: box; box-pack: center; box-orient: horizontal; box-align: center; }
       #main-wrapper.black { background: black; color: white; }
-      #content { padding: 0 150px; -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; }
+      #images { position: absolute; width: 100%; height: 100%; }
+      #content { display: inline-block; -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; z-index:100;}
       h1, h2 { text-align: center; text-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
       h1 { font-size: 78px; }
       h2 { font-size: 62px; }
@@ -67,7 +68,7 @@ __END__
       .field { width: 400px; margin: auto; }
       input, input:focus { border: none; outline: none; width: 100%; background: black; color: white; padding: 20px; font-size: 28px; border-radius: 26px; box-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
       input[type=submit] { visibility: hidden; }
-
+    %script{:type => "text/javascript", :src  => "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"}
   %body
     = yield
 
@@ -87,13 +88,15 @@ __END__
 
 @@ roulette
 #main-wrapper.black
+  #images
   #content
     %h1 SayWut?
 
-    %h2
+    %h2#wut
       &#8220;
       = saying.wut
       &#8221;
     %h2.author
       &#8212;
       = saying.who
+%script{:type => "text/javascript", :src  => "main.js"}
