@@ -27,11 +27,11 @@ get '/' do
   haml :index
 end
 
-get '/list' do
+get '/list/?' do
   Saying.all.to_s
 end
 
-get '/roulette' do
+get '/roulette/?' do
   haml :roulette, locals: { saying: Saying.all.sample }
 end
 
