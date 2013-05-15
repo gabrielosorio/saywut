@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'mongoid'
+require 'nokogiri'
 
 ENV['RACK_ENV'] ||= 'development'
 
@@ -36,6 +37,9 @@ end
 
 post '/spread-the-word' do
   return "Don't be leaving empty params..." if params["wut"].empty? || params["who"].empty?
+
+  html_tags = Nokogiri::HTML::DocumentFragment.parse(params["wut"] + params["who"]).search('*')
+  return "You wouldn't be trying to submit some code into this pure loving baby, would you...." if html_tags.any?
 
   if Saying.create(wut: params["wut"], who: params["who"])
     redirect back
