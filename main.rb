@@ -59,6 +59,7 @@ __END__
   %head
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,900' rel='stylesheet' type='text/css'>
     :css
+      .show { display: block !important; }
       body { overflow: hidden }
       * { font-family: 'Playfair Display', serif; font-weight: bold; }
       #main-wrapper { height: 100%; width: 100%; display: -webkit-box; -webkit-box-pack: center; -webkit-box-orient: horizontal; -webkit-box-align: center; display: -moz-box; -moz-box-pack: center; -moz-box-orient: horizontal; -moz-box-align: center; display: box; box-pack: center; box-orient: horizontal; box-align: center; }
@@ -73,6 +74,9 @@ __END__
       input[type=submit] { visibility: hidden; }
       #share-quote-button { position: fixed; left: 50px; bottom: 25px; height: 70px; width: 70px; background: url('../images/share.png') no-repeat center center; background-size: 75% auto; border-radius: 8px; }
       #share-quote-button:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
+      .right-tooltip { display: none; position: absolute; top: 0; left: 90px; float: left; width: 300px; padding: 14px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
+      .right-tooltip::before { content: ' '; position: absolute; top: 36%; left: -20px; border-color: transparent; border-right-color: rgba(255, 255, 255, 0.3); border-width: 10px; border-style: solid; }
+      .right-tooltip input { font-size: 14px; font-family: sans-seriff; padding: 10px; border-radius: 8px; font-family: sans-seriff; }
 
   %body
     = yield
@@ -104,3 +108,15 @@ __END__
       &#8212;
       = saying.who
     #share-quote-button
+      .right-tooltip
+        %input{ type: 'text', value: request.base_url + '/quote/' + saying.id }
+
+:javascript
+  // show the tooltip
+  var shareButton = document.getElementById('share-quote-button');
+  shareButton.onclick = function() {
+    var tooltip = this.children[0];
+    // select the tooltip text
+    tooltip.className += ' show';
+    tooltip.children[0].select();
+  };
