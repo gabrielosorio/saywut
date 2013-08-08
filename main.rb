@@ -35,6 +35,10 @@ get '/roulette/?' do
   haml :roulette, locals: { saying: Saying.all.sample }
 end
 
+get '/quote/:id/?' do
+  haml :roulette, locals: { saying: Saying.find(params[:id]) }
+end
+
 post '/spread-the-word' do
   return "Don't be leaving empty params..." if params["wut"].empty? || params["who"].empty?
 
@@ -67,6 +71,8 @@ __END__
       .field { width: 400px; margin: auto; }
       input, input:focus { border: none; outline: none; width: 100%; background: black; color: white; padding: 20px; font-size: 28px; border-radius: 26px; box-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
       input[type=submit] { visibility: hidden; }
+      #share-quote-button { position: fixed; left: 50px; bottom: 25px; height: 70px; width: 70px; background: url('../images/share.png') no-repeat center center; background-size: 75% auto; border-radius: 8px; }
+      #share-quote-button:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
 
   %body
     = yield
@@ -97,3 +103,4 @@ __END__
     %h2.author
       &#8212;
       = saying.who
+    #share-quote-button
