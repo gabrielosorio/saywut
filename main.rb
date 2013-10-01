@@ -87,7 +87,7 @@ __END__
     %form{ action: '/spread-the-word', method: 'POST' }
       %h1 SayWut?
       .field
-        %input{ type: 'text', name: 'wut' }
+        %input{ type: 'text', name: 'wut', autofocus: 'true' }
 
       %h2 SezWho?
       .field
