@@ -57,6 +57,7 @@ __END__
 @@ layout
 %html
   %head
+    %title SayWut | Straightforward Hadron-colliding Super-slinky Quote Generator
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,900' rel='stylesheet' type='text/css'>
     :css
       .show { display: block !important; }
