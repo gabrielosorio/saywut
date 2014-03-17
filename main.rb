@@ -3,6 +3,7 @@ require 'sinatra'
 require 'haml'
 require 'mongoid'
 require 'nokogiri'
+require 'json'
 
 ENV['RACK_ENV'] ||= 'development'
 
@@ -14,6 +15,11 @@ configure do
       config.sessions = { default: { uri: 'mongodb://localhost:27017/saywut' } }
     end
   end
+end
+
+before do
+   headers 'Access-Control-Allow-Origin' => 'http://www.neonroots.com',
+            'Access-Control-Allow-Methods' => ['GET']
 end
 
 class Saying
@@ -37,6 +43,11 @@ end
 
 get '/quote/:id/?' do
   haml :roulette, locals: { saying: Saying.find(params[:id]) }
+end
+
+get '/api/roulette/?' do
+  content_type :json
+  { saying: Saying.all.sample }.to_json
 end
 
 post '/spread-the-word' do
