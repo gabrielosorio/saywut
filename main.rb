@@ -95,7 +95,7 @@ __END__
       @media all and (max-width: 570px) {
         #main-wrapper { display: block; overflow: hidden; }
         #content, #content form { width: 100%; margin: 0; }
-        #content { padding: 0 10px; -webkit-box-sizing: -moz-border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+        #content { padding: 0 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
         #main-wrapper.black #content { max-height: calc(100% - 70px); overflow: auto; }
         #main-wrapper.black #content::after { content: ' '; display: block; position: absolute; bottom: 70px; left: 0; width: 100%; height: 30px; background: linear-gradient(transparent, black); }
         #content h1, #content h2 { margin: 22px 0; display: inline-block; width: 100%; }
