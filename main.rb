@@ -79,10 +79,10 @@ __END__
       * { font-family: 'Playfair Display', serif; font-weight: bold; }
       #main-wrapper { height: 100%; width: 100%; display: -webkit-flexbox; display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -moz-justify-content: center; -ms-justify-content: center; justify-content: center; -webkit-flex-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center; }
       #main-wrapper.black, #main-wrapper.black #content { background: black; color: white; }
-      #content form { width: 400px; }
+      #content form { width: 400px; padding: 0 4px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
       h1, h2 { text-align: center; text-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
-      h1 { margin: 0 0 052px; font-size: 78px; }
-      h2 { font-size: 62px; }
+      h1 { font-size: 78px; }
+      h2 { font-size: 62px; padding: 0 20px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
       h2.author { font-size: 50px; text-align: right; }
       .field { width: 100%; }
       input, input:focus { border: none; outline: none; width: 100%; background: black; color: white; padding: 20px; font-size: 28px; border-radius: 26px; box-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
@@ -92,17 +92,22 @@ __END__
       .right-tooltip { display: none; position: absolute; top: 0; left: 90px; float: left; width: 300px; padding: 14px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip::before { content: ' '; position: absolute; top: 36%; left: -20px; border-color: transparent; border-right-color: rgba(255, 255, 255, 0.3); border-width: 10px; border-style: solid; }
       .right-tooltip input { font-size: 14px; font-family: sans-seriff; padding: 10px; border-radius: 8px; font-family: sans-seriff; }
-      @media all and (max-width: 570px) {
-        #main-wrapper { display: block; overflow: hidden; }
+      @media all and (max-width: 680px) {
+        #main-wrapper { display: block; }
         #content, #content form { width: 100%; margin: 0; }
-        #content { padding: 0 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
-        #main-wrapper.black #content { max-height: calc(100% - 70px); overflow: auto; }
-        #main-wrapper.black #content::after { content: ' '; display: block; position: absolute; bottom: 70px; left: 0; width: 100%; height: 30px; background: linear-gradient(transparent, black); }
-        #content h1, #content h2 { margin: 22px 0; display: inline-block; width: 100%; }
-        #content h1 { font-size: 72px; }
-        #content h2 { font-size: 40px; }
-        #share-quote-button { height: 58px; bottom: 5px; left: 15px; }
-        .right-tooltip { width: 180px; padding: 8px; }
+        #content { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+        #main-wrapper.black #content { padding-top: 70px; }
+        #main-wrapper.black .title-wrapper { position: fixed; top: 0; width: 100%; height: 70px; background: black; }
+        #main-wrapper.black h1 { font-size: 48px; margin: 0; }
+        #main-wrapper.black h2 { font-size: 40px; }
+        #content h1, #content h2 { display: inline-block; width: 100%; }
+        #content h1 { margin: 24px 0; font-size: 72px; }
+        #content h2 { margin: 22px 0; font-size: 58px; padding: 0 10px; }
+        #share-quote-button { width: 50px; height: 42px; top: 14px; left: 5px; }
+        #share-quote-button::after { content: ' '; display: block; width: 100%; height: 70px; }
+        .right-tooltip { width: 180px; padding: 3px; }
+        .right-tooltip::before { top: 28%; }
+        .right-tooltip input { padding: 8px; }
       }
 
   %body
@@ -125,8 +130,11 @@ __END__
 @@ roulette
 #main-wrapper.black
   #content
-    %h1 SayWut?
-
+    .title-wrapper
+      %h1 SayWut?
+      #share-quote-button
+        .right-tooltip
+          %input{ type: 'text', value: request.base_url + '/quote/' + saying.id }
     %h2
       &#8220;
       = saying.wut
@@ -134,9 +142,6 @@ __END__
     %h2.author
       &#8212;
       = saying.who
-  #share-quote-button
-    .right-tooltip
-      %input{ type: 'text', value: request.base_url + '/quote/' + saying.id }
 
 :javascript
   // show the tooltip
