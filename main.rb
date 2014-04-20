@@ -27,6 +27,7 @@ class Saying
   field :wut
   field :who
   field :wen, type: Time, default: Time.now
+  field :crap_count, type: Integer, default: 0
 end
 
 get '/' do
@@ -38,7 +39,7 @@ get '/list/?' do
 end
 
 get '/roulette/?' do
-  haml :roulette, locals: { saying: Saying.all.sample }
+  haml :roulette, locals: { saying: Saying.where(:crap_count.lt => 3).sample }
 end
 
 get '/quote/:id/?' do
@@ -60,6 +61,15 @@ post '/spread-the-word' do
     redirect back
   else
     "Does this unformatted text make you feel miserable enough to understand that this is an error?"
+  end
+end
+
+put '/flag-as-crap' do
+  saying = Saying.find(params[:id])
+  if saying.inc(:crap_count, 1)
+    redirect back
+  else
+    "Yes and yes: This is an error, and I didn't have time to format it."
   end
 end
 
@@ -87,8 +97,10 @@ __END__
       .field { width: 100%; }
       input, input:focus { border: none; outline: none; width: 100%; background: black; color: white; padding: 20px; font-size: 28px; border-radius: 26px; box-shadow: 1px 1px rgba(255, 165, 115, 0.5); }
       input[type=submit] { position: absolute; left: -9000px; visibility: hidden; }
-      #share-quote-button { position: fixed; left: 50px; bottom: 25px; height: 70px; width: 70px; background: url('../images/share.png') no-repeat center center; background-size: 75% auto; border-radius: 8px; }
-      #share-quote-button:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
+      #share-quote-button, #flag-as-crap-button input[type=submit] { position: fixed; height: 70px; width: 70px; border-radius: 8px; }
+      #share-quote-button { left: 50px; bottom: 25px; background: url('../images/share.png') no-repeat center; background-size: 75% auto; }
+      #flag-as-crap-button input[type=submit] { top: 25px; right: 50px; left: auto; visibility: visible; background: url('../images/poo-icon.png') no-repeat center; background-size: 50px auto; text-indent: -9000; box-shadow: none; }
+      #share-quote-button:hover, #flag-as-crap-button input[type=submit]:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip { display: none; position: absolute; top: 0; left: 90px; float: left; width: 300px; padding: 14px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip::before { content: ' '; position: absolute; top: 36%; left: -20px; border-color: transparent; border-right-color: rgba(255, 255, 255, 0.3); border-width: 10px; border-style: solid; }
       .right-tooltip input { font-size: 14px; font-family: sans-seriff; padding: 10px; border-radius: 8px; font-family: sans-seriff; }
@@ -120,11 +132,9 @@ __END__
       %h1 SayWut?
       .field
         %input{ type: 'text', name: 'wut', autofocus: 'true' }
-
       %h2 SezWho?
       .field
         %input{ type: 'text', name: 'who' }
-
       %input{ type: "submit", value: "Spread the Word" }
 
 @@ roulette
@@ -135,6 +145,11 @@ __END__
       #share-quote-button
         .right-tooltip
           %input{ type: 'text', value: request.base_url + '/quote/' + saying.id }
+      #flag-as-crap-button
+        %form{ action: '/flag-as-crap', method: 'POST' }
+          %input{ type: 'hidden', name: '_method', value: 'put' }
+          %input{ type: 'hidden', name: 'id', value: saying.id }
+          %input{ type: 'submit', value: 'Flag as Cr*p', alt: 'Flag as Cr*p' }
     %h2
       &#8220;
       = saying.wut
