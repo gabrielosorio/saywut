@@ -99,7 +99,7 @@ __END__
       input[type=submit] { position: absolute; left: -9000px; visibility: hidden; }
       #share-quote-button, #flag-as-crap-button input[type=submit] { position: fixed; height: 70px; width: 70px; border-radius: 8px; }
       #share-quote-button { left: 50px; bottom: 25px; background: url('../images/share.png') no-repeat center; background-size: 75% auto; }
-      #flag-as-crap-button input[type=submit] { top: 25px; right: 50px; left: auto; visibility: visible; background: url('../images/poo-icon.png') no-repeat center; background-size: 50px auto; text-indent: -9000; box-shadow: none; }
+      #flag-as-crap-button input[type=submit] { top: 25px; right: 50px; left: auto; visibility: visible; background: url('../images/poo-icon.png') no-repeat center; background-size: 50px auto; text-indent: -9000; box-shadow: none; text-indent: -90000px; }
       #share-quote-button:hover, #flag-as-crap-button input[type=submit]:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip { display: none; position: absolute; top: 0; left: 90px; float: left; width: 300px; padding: 14px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip::before { content: ' '; position: absolute; top: 36%; left: -20px; border-color: transparent; border-right-color: rgba(255, 255, 255, 0.3); border-width: 10px; border-style: solid; }
