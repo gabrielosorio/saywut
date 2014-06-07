@@ -67,7 +67,7 @@ end
 put '/flag-as-crap' do
   saying = Saying.find(params[:id])
   if saying.inc(:crap_count, 1)
-    redirect back
+    redirect '/roulette'
   else
     "Yes and yes: This is an error, and I didn't have time to format it."
   end
