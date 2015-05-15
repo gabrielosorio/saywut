@@ -4,6 +4,7 @@ require 'haml'
 require 'mongoid'
 require 'nokogiri'
 require 'json'
+require 'slack/post'
 
 ENV['RACK_ENV'] ||= 'development'
 
@@ -15,6 +16,11 @@ configure do
       config.sessions = { default: { uri: 'mongodb://localhost:27017/saywut' } }
     end
   end
+  Slack::Post.configure(
+    webhook_url: 'https://hooks.slack.com/services/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' ,
+    subdomain: 'neonroots',
+    username: 'saywut'
+  )
 end
 
 before do
@@ -73,6 +79,25 @@ put '/flag-as-crap' do
   end
 end
 
+put '/send-to-slack' do
+  saying = Saying.find(params[:id])
+  if saying.inc(:crap_count, 1)
+    @attachments = [
+      {
+        author_name: saying.who,
+        color: 'good',
+        title: 'saywut!',
+        text: saying.wut
+      }
+    ]
+    Slack::Post.post_with_attachments saying.who,
+      @attachments, '#lemon-party-room'
+      redirect '/roulette'
+  else
+    "Yes and yes: This is an error, and I didn't have time to format it."
+  end
+end
+
 __END__
 
 @@ layout
@@ -100,6 +125,7 @@ __END__
       #share-quote-button, #flag-as-crap-button input[type=submit] { position: fixed; height: 70px; width: 70px; border-radius: 8px; }
       #share-quote-button { left: 50px; bottom: 25px; background: url('../images/share.png') no-repeat center; background-size: 75% auto; }
       #flag-as-crap-button input[type=submit] { top: 25px; right: 50px; left: auto; visibility: visible; background: url('../images/poo-icon.png') no-repeat center; background-size: 50px auto; text-indent: -9000; box-shadow: none; text-indent: -90000px; }
+      #share-on-slack input[type=submit] { top: 45px; right: 50px; left: auto; visibility: visible; background: url('../images/slack-logo.png') no-repeat center; background-size: 50px auto; text-indent: -9000; box-shadow: none; text-indent: -90000px; }
       #share-quote-button:hover, #flag-as-crap-button input[type=submit]:hover { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip { display: none; position: absolute; top: 0; left: 90px; float: left; width: 300px; padding: 14px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5); }
       .right-tooltip::before { content: ' '; position: absolute; top: 36%; left: -20px; border-color: transparent; border-right-color: rgba(255, 255, 255, 0.3); border-width: 10px; border-style: solid; }
@@ -150,6 +176,12 @@ __END__
           %input{ type: 'hidden', name: '_method', value: 'put' }
           %input{ type: 'hidden', name: 'id', value: saying.id }
           %input{ type: 'submit', value: 'Flag as Cr*p', alt: 'Flag as Cr*p' }
+      #share-on-slack
+        %form{ action: '/send-to-slack', method: 'POST' }
+          %input{ type: 'hidden', name: '_method', value: 'put' }
+          %input{ type: 'hidden', name: 'id', value: saying.id }
+          %input{ type: 'submit', value: 'Send to Slack', alt: 'Send to Slack' }
+
     %h2
       &#8220;
       = saying.wut
